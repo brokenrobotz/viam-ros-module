@@ -42,8 +42,8 @@ software that was existing.
 
 We welcome pull requests and issues, if there are any issues you can email:
 
-[shawn@viam.com](mailto:shawn@viam.com)
-[solution-eng@viam.com](mailto:solution-eng@viam.com)
+* [shawn@viam.com](mailto:shawn@viam.com)
+* [solution-eng@viam.com](mailto:solution-eng@viam.com)
 
 ### Supported components
 1. The [base](./base/base.go) converts Viam grpc calls to twist messages which are published to the `/cmd_vel` topic
