@@ -36,6 +36,7 @@ func realMain() error {
 
 	err = myMod.AddModelFromRegistry(ctx, viammovementsensor.API, imu.Model)
 	err = myMod.AddModelFromRegistry(ctx, viamsensor.API, battery.BatteryModel)
+	err = myMod.AddModelFromRegistry(ctx, viamsensor.API, battery.VoltageModel)
 	err = myMod.AddModelFromRegistry(ctx, viamsensor.API, sensors.EditionModel)
 	err = myMod.AddModelFromRegistry(ctx, viambase.API, base.RosBaseModel)
 	err = myMod.AddModelFromRegistry(ctx, viamcamera.API, camera.ROSLidarModel)
