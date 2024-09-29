@@ -4,7 +4,7 @@ import (
 	"github.com/bluenviron/goroslib/v2/pkg/msg"
 )
 
-type Battery struct {
+type Voltage struct {
 	msg.Package `ros:"yahboom_msgs"`
 	data        float32
 }
