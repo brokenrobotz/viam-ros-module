@@ -104,10 +104,12 @@ func (d *DiagnosticsSensor) Readings(
 	_ map[string]interface{},
 ) (map[string]interface{}, error) {
 	if d.msg == nil {
-		return nil, errors.New("edition message not prepared")
+		return nil, errors.New("diagnostics message not prepared")
 	}
+	retMsg := make(map[string]interface{})
+
 	return map[string]interface{}{
-		"status": d.msg.Status,
+		"status": d.msg.Status.(map[string]interface{}),
 	}, nil
 }
 
