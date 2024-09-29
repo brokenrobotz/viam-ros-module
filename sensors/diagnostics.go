@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/bluenviron/goroslib/v2"
 	"github.com/bluenviron/goroslib/v2/pkg/msgs/diagnostic_msgs"
+	"github.com/bluenviron/goroslib/v2/pkg/msgs/std_msgs"
 	"github.com/brokenrobotz/viam-ros-module/viamrosnode"
 	"go.viam.com/rdk/components/sensor"
 	"go.viam.com/rdk/logging"
@@ -106,9 +107,9 @@ func (d *DiagnosticsSensor) Readings(
 	if d.msg == nil {
 		return nil, errors.New("diagnostics message not prepared")
 	}
-
 	return map[string]interface{}{
-		"status": d.msg.Status,
+		"header": convertHeaderToMap(d.msg.Header),
+		"status": convertStatusToMap(d.msg.Status),
 	}, nil
 }
 
@@ -117,4 +118,39 @@ func (d *DiagnosticsSensor) Close(_ context.Context) error {
 		d.subscriber.Close()
 	}
 	return nil
+}
+
+func convertHeaderToMap(header std_msgs.Header) map[string]interface{} {
+	return map[string]interface{}{
+		"seq":      header.Seq,
+		"stamp":    header.Stamp,
+		"frame_id": header.FrameId,
+	}
+}
+
+func convertStatusToMap(statuses []diagnostic_msgs.DiagnosticStatus) []map[string]interface{} {
+	var result []map[string]interface{}
+	for _, status := range statuses {
+		statusMap := map[string]interface{}{
+			"level":       status.Level,
+			"name":        status.Name,
+			"message":     status.Message,
+			"hardware_id": status.HardwareId,
+			"values":      convertKeyValuesToMap(status.Values),
+		}
+		result = append(result, statusMap)
+	}
+	return result
+}
+
+func convertKeyValuesToMap(values []diagnostic_msgs.KeyValue) []map[string]interface{} {
+	result := make([]map[string]interface{}, len(values))
+	for i, kv := range values {
+		kvMap := map[string]interface{}{
+			"k": kv.Key,
+			"v": kv.Value,
+		}
+		result[i] = kvMap
+	}
+	return result
 }
