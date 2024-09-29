@@ -107,9 +107,7 @@ func (d *DiagnosticsSensor) Readings(
 		return nil, errors.New("edition message not prepared")
 	}
 	return map[string]interface{}{
-		"package": d.msg.Package,
-		"header":  d.msg.Header,
-		"status":  d.msg.Status,
+		"status": d.msg.Status,
 	}, nil
 }
 
