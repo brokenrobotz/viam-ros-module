@@ -2,16 +2,15 @@ package main
 
 import (
 	"context"
+	"go.viam.com/rdk/logging"
 	"os"
-
-	"github.com/edaniels/golog"
 
 	"go.viam.com/rdk/config"
 	robotimpl "go.viam.com/rdk/robot/impl"
 	"go.viam.com/rdk/robot/web"
 
-	_ "github.com/shawnbmccarthy/viam-ros-module/camera"
-	_ "github.com/shawnbmccarthy/viam-ros-module/imu"
+	_ "github.com/brokenrobotz/viam-ros-module/camera"
+	_ "github.com/brokenrobotz/viam-ros-module/imu"
 )
 
 func main() {
@@ -23,7 +22,7 @@ func main() {
 func realMain() error {
 
 	ctx := context.Background()
-	logger := golog.NewDevelopmentLogger("client")
+	logger := logging.NewDebugLogger("client")
 
 	conf, err := config.ReadLocalConfig(ctx, os.Args[1], logger)
 	if err != nil {

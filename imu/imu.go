@@ -14,11 +14,11 @@ package imu
  */
 import (
 	"context"
+	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/ros"
 	"strings"
 	"sync"
 
-	"github.com/edaniels/golog"
 	"github.com/golang/geo/r3"
 	geo "github.com/kellydunn/golang-geo"
 	"github.com/pkg/errors"
@@ -26,7 +26,7 @@ import (
 	"github.com/bluenviron/goroslib/v2"
 	"github.com/bluenviron/goroslib/v2/pkg/msgs/geometry_msgs"
 	"github.com/bluenviron/goroslib/v2/pkg/msgs/sensor_msgs"
-	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
+	"github.com/brokenrobotz/viam-ros-module/viamrosnode"
 	"go.viam.com/rdk/components/movementsensor"
 	"go.viam.com/rdk/resource"
 	"go.viam.com/rdk/spatialmath"
@@ -44,7 +44,7 @@ type RosImu struct {
 	node       *goroslib.Node
 	subscriber *goroslib.Subscriber
 	msg        *sensor_msgs.Imu
-	logger     golog.Logger
+	logger     logging.Logger
 }
 
 func init() {
@@ -69,7 +69,7 @@ func NewRosImu(
 	ctx context.Context,
 	deps resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (movementsensor.MovementSensor, error) {
 	r := &RosImu{
 		Named:  conf.ResourceName().AsNamed(),
@@ -87,7 +87,7 @@ func NewRosImuDummy(
 	_ context.Context,
 	_ resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (movementsensor.MovementSensor, error) {
 	r := &RosImu{
 		Named:  conf.ResourceName().AsNamed(),
@@ -226,14 +226,18 @@ func (r *RosImu) Readings(
 	ctx context.Context,
 	extra map[string]interface{},
 ) (map[string]interface{}, error) {
-	return movementsensor.Readings(ctx, r, extra)
+	if r.msg == nil {
+		return nil, errors.New("message unavailable")
+	}
+
+	return nil, nil
 }
 
 func (r *RosImu) Accuracy(
 	_ context.Context,
 	_ map[string]interface{},
-) (map[string]float32, error) {
-	return map[string]float32{}, movementsensor.ErrMethodUnimplementedAccuracy
+) (*movementsensor.Accuracy, error) {
+	return nil, movementsensor.ErrMethodUnimplementedAccuracy
 }
 
 func (r *RosImu) Close(_ context.Context) error {

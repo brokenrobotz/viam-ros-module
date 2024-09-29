@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"github.com/bluenviron/goroslib/v2"
 	"github.com/bluenviron/goroslib/v2/pkg/msgs/sensor_msgs"
-	"github.com/edaniels/golog"
-	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
+	"github.com/brokenrobotz/viam-ros-module/viamrosnode"
 	viamcamera "go.viam.com/rdk/components/camera"
+	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/resource"
 	"image"
 	"strings"
@@ -21,7 +21,7 @@ func NewRosMediaSource(
 	ctx context.Context,
 	deps resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (*RosMediaSource, error) {
 	rms := &RosMediaSource{
 		Named:  conf.ResourceName().AsNamed(),
@@ -40,7 +40,7 @@ type RosMediaSource struct {
 	resource.Named
 
 	ctx        context.Context
-	logger     golog.Logger
+	logger     logging.Logger
 	mu         sync.Mutex
 	img        image.Image
 	primaryUri string
@@ -140,7 +140,7 @@ func NewRosCamera(
 	ctx context.Context,
 	deps resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (viamcamera.Camera, error) {
 	rosVideoSrc, err := NewRosMediaSource(ctx, deps, conf, logger)
 	if err != nil {
@@ -159,5 +159,5 @@ func NewRosCamera(
 		logger.Error("problem created new video source")
 		return nil, err
 	}
-	return viamcamera.FromVideoSource(conf.ResourceName(), videoSrc), nil
+	return viamcamera.FromVideoSource(conf.ResourceName(), videoSrc, logger), nil
 }

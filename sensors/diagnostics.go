@@ -5,8 +5,7 @@ import (
 	"errors"
 	"github.com/bluenviron/goroslib/v2"
 	"github.com/bluenviron/goroslib/v2/pkg/msgs/diagnostic_msgs"
-	"github.com/edaniels/golog"
-	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
+	"github.com/brokenrobotz/viam-ros-module/viamrosnode"
 	"go.viam.com/rdk/components/sensor"
 	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/resource"
@@ -42,7 +41,7 @@ func NewDiagnosticsSensor(
 	ctx context.Context,
 	deps resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (sensor.Sensor, error) {
 	d := &DiagnosticsSensor{
 		Named:  conf.ResourceName().AsNamed(),

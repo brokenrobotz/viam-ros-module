@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"github.com/bluenviron/goroslib/v2"
-	"github.com/edaniels/golog"
-	"github.com/shawnbmccarthy/viam-ros-module/pkg/msgs/yahboom_msgs"
-	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
+	"github.com/brokenrobotz/viam-ros-module/pkg/msgs/yahboom_msgs"
+	"github.com/brokenrobotz/viam-ros-module/viamrosnode"
 	"go.viam.com/rdk/components/sensor"
+	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/resource"
 	"strings"
 	"sync"
@@ -24,7 +24,7 @@ type BatterySensor struct {
 	node       *goroslib.Node
 	subscriber *goroslib.Subscriber
 	msg        *yahboom_msgs.Battery
-	logger     golog.Logger
+	logger     logging.Logger
 }
 
 func init() {
@@ -41,7 +41,7 @@ func NewBatterySensor(
 	ctx context.Context,
 	deps resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (sensor.Sensor, error) {
 	b := &BatterySensor{
 		Named:  conf.ResourceName().AsNamed(),

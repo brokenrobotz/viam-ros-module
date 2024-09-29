@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"github.com/bluenviron/goroslib/v2"
 	"github.com/bluenviron/goroslib/v2/pkg/msgs/sensor_msgs"
-	"github.com/edaniels/golog"
+	"github.com/brokenrobotz/viam-ros-module/viamrosnode"
 	"github.com/golang/geo/r3"
-	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
-	"github.com/viamrobotics/gostream"
 	"go.viam.com/rdk/components/camera"
+	"go.viam.com/rdk/gostream"
+	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/pointcloud"
 	"go.viam.com/rdk/resource"
 	"go.viam.com/rdk/rimage/transform"
@@ -35,7 +35,7 @@ type ROSLidar struct {
 	subscriber *goroslib.Subscriber
 	msg        *sensor_msgs.LaserScan
 	pcMsg      pointcloud.PointCloud
-	logger     golog.Logger
+	logger     logging.Logger
 }
 
 func init() {
@@ -61,7 +61,7 @@ func NewROSLidar(
 	ctx context.Context,
 	deps resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (camera.Camera, error) {
 	l := &ROSLidar{
 		Named:  conf.ResourceName().AsNamed(),
@@ -79,7 +79,7 @@ func NewROSLidarDummy(
 	ctx context.Context,
 	deps resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (camera.Camera, error) {
 
 	l := &ROSLidar{
@@ -150,7 +150,7 @@ func (l *ROSLidar) Images(_ context.Context) ([]camera.NamedImage, resource.Resp
 	return nil, resource.ResponseMetadata{}, fmt.Errorf("not implemented")
 }
 
-func (l *ROSLidar) Stream(_ context.Context, _ ...gostream.ErrorHandler) (gostream.VideoStream, error) {
+func (l *ROSLidar) Stream(ctx context.Context, errHandlers ...gostream.ErrorHandler) (gostream.VideoStream, error) {
 	return nil, fmt.Errorf("not implemented")
 }
 
@@ -195,7 +195,9 @@ func convertMsg(msg *sensor_msgs.LaserScan) (pointcloud.PointCloud, error) {
 }
 
 func (l *ROSLidar) Properties(_ context.Context) (camera.Properties, error) {
-	return camera.Properties{}, errors.New("not implemented")
+	return camera.Properties{
+		SupportsPCD: true,
+	}, nil
 }
 
 func (l *ROSLidar) Close(_ context.Context) error {

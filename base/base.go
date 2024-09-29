@@ -5,10 +5,10 @@ import (
 	"errors"
 	"github.com/bluenviron/goroslib/v2"
 	"github.com/bluenviron/goroslib/v2/pkg/msgs/geometry_msgs"
-	"github.com/edaniels/golog"
+	"github.com/brokenrobotz/viam-ros-module/viamrosnode"
 	"github.com/golang/geo/r3"
-	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
 	viambase "go.viam.com/rdk/components/base"
+	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/resource"
 	"go.viam.com/rdk/spatialmath"
 	"strings"
@@ -30,7 +30,7 @@ type RosBase struct {
 	node       *goroslib.Node
 	publisher  *goroslib.Publisher
 	twistMsg   *geometry_msgs.Twist
-	logger     golog.Logger
+	logger     logging.Logger
 	msgRate    *goroslib.NodeRate
 	closed     int32
 	moving     bool
@@ -50,7 +50,7 @@ func NewTrackedBase(
 	ctx context.Context,
 	deps resource.Dependencies,
 	conf resource.Config,
-	logger golog.Logger,
+	logger logging.Logger,
 ) (viambase.Base, error) {
 	r := &RosBase{
 		Named:  conf.ResourceName().AsNamed(),

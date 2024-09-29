@@ -2,19 +2,19 @@ package main
 
 import (
 	"context"
-	"github.com/shawnbmccarthy/viam-ros-module/base"
-	"github.com/shawnbmccarthy/viam-ros-module/camera"
-	"github.com/shawnbmccarthy/viam-ros-module/sensors"
-	"github.com/shawnbmccarthy/viam-ros-module/sensors/battery"
-	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
+	"github.com/brokenrobotz/viam-ros-module/base"
+	"github.com/brokenrobotz/viam-ros-module/camera"
+	"github.com/brokenrobotz/viam-ros-module/sensors"
+	"github.com/brokenrobotz/viam-ros-module/sensors/battery"
+	"github.com/brokenrobotz/viam-ros-module/viamrosnode"
 
 	viambase "go.viam.com/rdk/components/base"
 	viamcamera "go.viam.com/rdk/components/camera"
 	viamsensor "go.viam.com/rdk/components/sensor"
 
-	"github.com/edaniels/golog"
-	"github.com/shawnbmccarthy/viam-ros-module/imu"
+	"github.com/brokenrobotz/viam-ros-module/imu"
 	viammovementsensor "go.viam.com/rdk/components/movementsensor"
+	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/module"
 )
 
@@ -27,7 +27,7 @@ func main() {
 
 func realMain() error {
 	ctx := context.Background()
-	logger := golog.NewDevelopmentLogger("client")
+	logger := logging.NewDebugLogger("client")
 
 	myMod, err := module.NewModuleFromArgs(ctx, logger)
 	if err != nil {
