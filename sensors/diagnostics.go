@@ -30,7 +30,7 @@ type DiagnosticsSensor struct {
 func init() {
 	resource.RegisterComponent(
 		sensor.API,
-		EditionModel,
+		DiagnosticsModel,
 		resource.Registration[sensor.Sensor, *DiagnosticsSensorConfig]{
 			Constructor: NewDiagnosticsSensor,
 		},
