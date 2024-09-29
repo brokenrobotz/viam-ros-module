@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"github.com/bluenviron/goroslib/v2"
+	"github.com/bluenviron/goroslib/v2/pkg/msgs/std_msgs"
 	"github.com/edaniels/golog"
-	"github.com/shawnbmccarthy/viam-ros-module/pkg/msgs/yahboom_msgs"
 	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
 	"go.viam.com/rdk/components/sensor"
 	"go.viam.com/rdk/resource"
@@ -23,7 +23,7 @@ type EditionSensor struct {
 	topic      string
 	node       *goroslib.Node
 	subscriber *goroslib.Subscriber
-	msg        *yahboom_msgs.Edition
+	msg        *std_msgs.Float32
 	logger     golog.Logger
 }
 
@@ -95,7 +95,7 @@ func (e *EditionSensor) Reconfigure(
 	return nil
 }
 
-func (e *EditionSensor) processMessage(msg *yahboom_msgs.Edition) {
+func (e *EditionSensor) processMessage(msg *std_msgs.Float32) {
 	e.msg = msg
 }
 
@@ -106,7 +106,7 @@ func (e *EditionSensor) Readings(
 	if e.msg == nil {
 		return nil, errors.New("edition message not prepared")
 	}
-	return map[string]interface{}{"edition": e.msg.Edition}, nil
+	return map[string]interface{}{"edition": e.msg.Data}, nil
 }
 
 func (e *EditionSensor) Close(_ context.Context) error {
