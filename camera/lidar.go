@@ -21,8 +21,8 @@ import (
 	"time"
 )
 
-var ROSLidarModel = resource.NewModel("viamlabs", "ros", "lidar")
-var ROSDummyLidarModel = resource.NewModel("viamlabs", "ros", "lidar-dummy")
+var ROSLidarModel = resource.NewModel("brokenrobotz", "ros", "lidar")
+var ROSDummyLidarModel = resource.NewModel("brokenrobotz", "ros", "lidar-dummy")
 
 type ROSLidar struct {
 	resource.Named

@@ -5,6 +5,7 @@ import (
 	"github.com/shawnbmccarthy/viam-ros-module/base"
 	"github.com/shawnbmccarthy/viam-ros-module/camera"
 	"github.com/shawnbmccarthy/viam-ros-module/sensors"
+	"github.com/shawnbmccarthy/viam-ros-module/sensors/battery"
 	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
 
 	viambase "go.viam.com/rdk/components/base"
@@ -34,7 +35,7 @@ func realMain() error {
 	}
 
 	err = myMod.AddModelFromRegistry(ctx, viammovementsensor.API, imu.Model)
-	err = myMod.AddModelFromRegistry(ctx, viamsensor.API, sensors.BatteryModel)
+	err = myMod.AddModelFromRegistry(ctx, viamsensor.API, battery.BatteryModel)
 	err = myMod.AddModelFromRegistry(ctx, viamsensor.API, sensors.EditionModel)
 	err = myMod.AddModelFromRegistry(ctx, viambase.API, base.RosBaseModel)
 	err = myMod.AddModelFromRegistry(ctx, viamcamera.API, camera.ROSLidarModel)

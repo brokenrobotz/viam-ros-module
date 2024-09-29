@@ -1,4 +1,4 @@
-package transbot_msgs
+package yahboom_msgs
 
 import (
 	"github.com/bluenviron/goroslib/v2/pkg/msg"

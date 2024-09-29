@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-var RosBaseModel = resource.NewModel("viamlabs", "ros", "base")
+var RosBaseModel = resource.NewModel("brokenrobotz", "ros", "base")
 
 type RosBase struct {
 	resource.Named

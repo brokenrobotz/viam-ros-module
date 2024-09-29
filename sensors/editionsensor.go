@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/bluenviron/goroslib/v2"
 	"github.com/edaniels/golog"
-	"github.com/shawnbmccarthy/viam-ros-module/pkg/msgs/transbot_msgs"
+	"github.com/shawnbmccarthy/viam-ros-module/pkg/msgs/yahboom_msgs"
 	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
 	"go.viam.com/rdk/components/sensor"
 	"go.viam.com/rdk/resource"
@@ -13,7 +13,7 @@ import (
 	"sync"
 )
 
-var EditionModel = resource.NewModel("viamlabs", "ros", "yahboomedition")
+var EditionModel = resource.NewModel("brokenrobotz", "ros", "edition")
 
 type EditionSensor struct {
 	resource.Named
@@ -23,7 +23,7 @@ type EditionSensor struct {
 	topic      string
 	node       *goroslib.Node
 	subscriber *goroslib.Subscriber
-	msg        *transbot_msgs.Edition
+	msg        *yahboom_msgs.Edition
 	logger     golog.Logger
 }
 
@@ -95,7 +95,7 @@ func (e *EditionSensor) Reconfigure(
 	return nil
 }
 
-func (e *EditionSensor) processMessage(msg *transbot_msgs.Edition) {
+func (e *EditionSensor) processMessage(msg *yahboom_msgs.Edition) {
 	e.msg = msg
 }
 

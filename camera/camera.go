@@ -15,7 +15,7 @@ import (
 	"sync"
 )
 
-var RosCameraModel = resource.NewModel("viamlabs", "ros", "camera")
+var RosCameraModel = resource.NewModel("brokenrobotz", "ros", "camera")
 
 func NewRosMediaSource(
 	ctx context.Context,

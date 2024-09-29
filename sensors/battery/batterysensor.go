@@ -1,11 +1,11 @@
-package sensors
+package battery
 
 import (
 	"context"
 	"errors"
 	"github.com/bluenviron/goroslib/v2"
 	"github.com/edaniels/golog"
-	"github.com/shawnbmccarthy/viam-ros-module/pkg/msgs/transbot_msgs"
+	"github.com/shawnbmccarthy/viam-ros-module/pkg/msgs/yahboom_msgs"
 	"github.com/shawnbmccarthy/viam-ros-module/viamrosnode"
 	"go.viam.com/rdk/components/sensor"
 	"go.viam.com/rdk/resource"
@@ -13,7 +13,7 @@ import (
 	"sync"
 )
 
-var BatteryModel = resource.NewModel("viamlabs", "ros", "yahboombattery")
+var BatteryModel = resource.NewModel("brokenrobotz", "ros", "battery")
 
 type BatterySensor struct {
 	resource.Named
@@ -23,7 +23,7 @@ type BatterySensor struct {
 	topic      string
 	node       *goroslib.Node
 	subscriber *goroslib.Subscriber
-	msg        *transbot_msgs.Battery
+	msg        *yahboom_msgs.Battery
 	logger     golog.Logger
 }
 
@@ -96,7 +96,7 @@ func (b *BatterySensor) Reconfigure(
 	return nil
 }
 
-func (b *BatterySensor) processMessage(msg *transbot_msgs.Battery) {
+func (b *BatterySensor) processMessage(msg *yahboom_msgs.Battery) {
 	b.msg = msg
 }
 

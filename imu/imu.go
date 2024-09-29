@@ -32,8 +32,8 @@ import (
 	"go.viam.com/rdk/spatialmath"
 )
 
-var Model = resource.NewModel("viamlabs", "ros", "imu")
-var DummyImuModel = resource.NewModel("viamlabs", "ros", "imu-dummy")
+var Model = resource.NewModel("brokenrobotz", "ros", "imu")
+var DummyImuModel = resource.NewModel("brokenrobotz", "ros", "imu-dummy")
 
 type RosImu struct {
 	resource.Named
