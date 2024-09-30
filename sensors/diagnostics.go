@@ -135,7 +135,6 @@ func convertStatusToMap(statuses []diagnostic_msgs.DiagnosticStatus) []map[strin
 			"name":        status.Name,
 			"message":     status.Message,
 			"hardware_id": status.HardwareId,
-			"values":      convertKeyValuesToMap(status.Values),
 		}
 		result = append(result, statusMap)
 	}
