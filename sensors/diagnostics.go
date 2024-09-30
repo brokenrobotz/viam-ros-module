@@ -108,7 +108,6 @@ func (d *DiagnosticsSensor) Readings(
 		return nil, errors.New("diagnostics message not prepared")
 	}
 	return map[string]interface{}{
-		"header": convertHeaderToMap(d.msg.Header),
 		"status": convertStatusToMap(d.msg.Status),
 	}, nil
 }
