@@ -143,10 +143,15 @@ func (r *RosImu) Reconfigure(
 	return nil
 }
 
-func (r *RosImu) processMessage(msg *sensor_msgs.Imu) {
+func (r *RosImu) processMessage(msg interface{}) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
-	r.msg = msg
+
+	//var msgT *sensor_msgs.Imu
+
+	if msgT, ok := msg.(*sensor_msgs.Imu); ok {
+		r.msg = msgT
+	}
 }
 
 func (r *RosImu) Position(

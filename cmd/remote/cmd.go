@@ -20,7 +20,6 @@ func main() {
 	}
 }
 func realMain() error {
-
 	ctx := context.Background()
 	logger := logging.NewDebugLogger("client")
 
