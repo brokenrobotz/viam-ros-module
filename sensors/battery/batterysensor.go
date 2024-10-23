@@ -14,6 +14,7 @@ import (
 )
 
 var BatteryModel = resource.NewModel("brokenrobotz", "ros", "battery")
+var DummyBatteryModel = resource.NewModel("brokenrobotz", "ros", "battery-dummy")
 
 type BatterySensor struct {
 	resource.Named
@@ -35,6 +36,13 @@ func init() {
 			Constructor: NewBatterySensor,
 		},
 	)
+
+	resource.RegisterComponent(
+		sensor.API,
+		DummyBatteryModel,
+		resource.Registration[sensor.Sensor, *BatterySensorConfig]{
+			Constructor: NewDummyBatterySensor,
+		})
 }
 
 func NewBatterySensor(
@@ -53,6 +61,24 @@ func NewBatterySensor(
 	}
 
 	return b, nil
+}
+
+func NewDummyBatterySensor(
+	_ context.Context,
+	_ resource.Dependencies,
+	conf resource.Config,
+	logger logging.Logger,
+) (sensor.Sensor, error) {
+	r := &BatterySensor{
+		Named:  conf.ResourceName().AsNamed(),
+		logger: logger,
+	}
+
+	r.msg = &yahboom_msgs.Battery{
+		Voltage: 12.0,
+	}
+
+	return r, nil
 }
 
 func (b *BatterySensor) Reconfigure(
@@ -97,6 +123,7 @@ func (b *BatterySensor) Reconfigure(
 }
 
 func (b *BatterySensor) processMessage(msg *yahboom_msgs.Battery) {
+	b.logger.Debugf("Battery message received: %v", msg)
 	b.msg = msg
 }
 

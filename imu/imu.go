@@ -14,6 +14,7 @@ package imu
  */
 import (
 	"context"
+	"github.com/brokenrobotz/viam-ros-module/utils"
 	"go.viam.com/rdk/logging"
 	"go.viam.com/rdk/ros"
 	"strings"
@@ -132,9 +133,11 @@ func (r *RosImu) Reconfigure(
 	}
 
 	r.subscriber, err = goroslib.NewSubscriber(goroslib.SubscriberConf{
-		Node:     r.node,
-		Topic:    r.topic,
-		Callback: r.processMessage,
+		Node:  r.node,
+		Topic: r.topic,
+		Callback: func(msg *sensor_msgs.Imu) {
+			utils.GenericCallback[*sensor_msgs.Imu](msg, r.processMessage)
+		},
 	})
 	if err != nil {
 		return err
@@ -143,10 +146,14 @@ func (r *RosImu) Reconfigure(
 	return nil
 }
 
-func (r *RosImu) processMessage(msg *sensor_msgs.Imu) {
+func (r *RosImu) processMessage(result utils.Result[*sensor_msgs.Imu]) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
-	r.msg = msg
+	if result.Err != nil {
+		r.logger.Errorf("error processing message: %v", result.Err)
+	} else {
+		r.msg = result.Value
+	}
 }
 
 func (r *RosImu) Position(

@@ -11,6 +11,7 @@ import (
 
 	_ "github.com/brokenrobotz/viam-ros-module/camera"
 	_ "github.com/brokenrobotz/viam-ros-module/imu"
+	_ "github.com/brokenrobotz/viam-ros-module/sensors/battery"
 )
 
 func main() {
